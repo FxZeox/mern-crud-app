@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  compose:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project

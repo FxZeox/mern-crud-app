@@ -36,9 +36,7 @@ jobs:
       - name: Verify running containers
         run: docker ps
 
-      - name: Show logs (for debugging if needed)
-        run: docker-compose logs
-
+    
       - name: Stop containers
         if: always()
         run: docker-compose down

@@ -9,36 +9,26 @@ on:
 jobs:
   build:
     runs-on: [self-hosted, linux, x64]
-
-    # Ensure compatibility with upcoming Node.js 24 runtime
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    timeout-minutes: 30
 
     steps:
-      - name: Checkout project
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Check Docker versions
+        run: |
+          docker --version
+          docker-compose --version
 
       - name: Build containers
-        run: docker compose build
+        run: docker-compose build
 
-      - name: Start containers
-        run: docker compose up -d
+      - name: Start services
+        run: docker-compose up -d
 
-      - name: Wait for services
-        run: sleep 15
+      - name: Show running containers
+        run: docker-compose ps
 
-      - name: Verify running containers
-        run: docker ps
-
-      - name: Show logs (for debugging if needed)
-        run: docker compose logs
-
-      - name: Stop containers
+      - name: Stop services
         if: always()
-        run: docker compose down
+        run: docker-compose down

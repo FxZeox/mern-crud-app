@@ -37,6 +37,3 @@ jobs:
         run: docker ps
 
     
-      - name: Stop containers
-        if: always()
-        run: docker-compose down

@@ -11,6 +11,7 @@ services:
       - mern-net
 
   backend:
+    image: mrusman1/mern-backend:latest
     build: ./server
     container_name: mern-backend
     restart: unless-stopped
@@ -24,6 +25,7 @@ services:
       - mern-net
 
   frontend:
+    image: mrusman1/mern-frontend:latest
     build: ./client
     container_name: mern-frontend
     restart: unless-stopped

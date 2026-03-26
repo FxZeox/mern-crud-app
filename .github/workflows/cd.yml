@@ -15,11 +15,11 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Stop old containers
-        run: docker-compose down
+      - name: Pull latest images
+        run: docker-compose pull
 
-      - name: Start containers
-        run: docker-compose up -d
+      - name: Recreate containers with latest images
+        run: docker-compose up -d --remove-orphans
 
       - name: Wait for services
         run: sleep 15

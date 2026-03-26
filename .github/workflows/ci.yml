@@ -33,7 +33,7 @@ jobs:
       - name: Wait for services
         run: sleep 15
 
-      - name: Verify running containers
-        run: docker ps
 
-    
+      - name: Verify running containers
+        run: docker ps -a
+

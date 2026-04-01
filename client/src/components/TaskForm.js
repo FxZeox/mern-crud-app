@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const TaskForm = () => {
   const [title, setTitle] = useState('');
   const [taskId, setTaskId] = useState(null);
@@ -10,9 +12,9 @@ const TaskForm = () => {
     e.preventDefault();
     try {
       if (taskId) {
-        await axios.put(`http://localhost:5000/api/tasks/${taskId}`, { title });
+        await axios.put(`${API_BASE_URL}/api/tasks/${taskId}`, { title });
       } else {
-        await axios.post('http://localhost:5000/api/tasks', { title });
+        await axios.post(`${API_BASE_URL}/api/tasks`, { title });
       }
       setTitle('');
       setTaskId(null);

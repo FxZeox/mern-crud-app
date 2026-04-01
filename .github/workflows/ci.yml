@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, linux, x64]
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout project
@@ -22,13 +20,13 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "mrusman1" --password-stdin
 
       - name: Build backend image
-        run: docker build -t mrusman1/mern-backend:latest ./server
+        run: docker build -t mrusman1/mern-backend:latest -t mrusman1/mern-backend:${{ github.sha }} ./server
 
       - name: Build frontend image
-        run: docker build -t mrusman1/mern-frontend:latest ./client
+        run: docker build -t mrusman1/mern-frontend:latest -t mrusman1/mern-frontend:${{ github.sha }} ./client
 
-      - name: Push backend image
-        run: docker push mrusman1/mern-backend:latest
+      - name: Push backend images
+        run: docker push mrusman1/mern-backend:latest && docker push mrusman1/mern-backend:${{ github.sha }}
 
-      - name: Push frontend image
-        run: docker push mrusman1/mern-frontend:latest
+      - name: Push frontend images
+        run: docker push mrusman1/mern-frontend:latest && docker push mrusman1/mern-frontend:${{ github.sha }}

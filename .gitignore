@@ -1,0 +1,14 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+
+# Node dependencies (if any at root)
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

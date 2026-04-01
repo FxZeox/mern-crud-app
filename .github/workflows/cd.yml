@@ -17,10 +17,10 @@ jobs:
 
       - name: Deploy to EC2
         env:
-          SSH_PRIVATE_KEY_B64: ${{ secrets.EC2_SSH_KEY_B64 }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
           KEY_FILE="$(mktemp)"
-          printf '%s' "$SSH_PRIVATE_KEY_B64" | base64 -d > "$KEY_FILE"
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$KEY_FILE"
           chmod 600 "$KEY_FILE"
 
           ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" ubuntu@ec2-54-243-17-197.compute-1.amazonaws.com << 'EOF'

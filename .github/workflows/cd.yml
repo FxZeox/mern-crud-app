@@ -24,10 +24,10 @@ jobs:
           chmod 600 "$KEY_FILE"
 
           ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" ubuntu@ec2-54-243-17-197.compute-1.amazonaws.com << 'EOF'
-          cd ~/Desktop/mern-crud-app
+          cd /home/usman/Desktop/mern-crud-app
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker compose pull
-          docker compose up -d --remove-orphans
+          docker-compose pull
+          docker-compose up -d --remove-orphans
           docker ps
           EOF
 

@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+const TASKS_ENDPOINT = API_BASE_URL.endsWith('/api') ? `${API_BASE_URL}/tasks` : `${API_BASE_URL}/api/tasks`;
 
 const TaskForm = () => {
   const [title, setTitle] = useState('');
@@ -12,9 +13,9 @@ const TaskForm = () => {
     e.preventDefault();
     try {
       if (taskId) {
-        await axios.put(`${API_BASE_URL}/api/tasks/${taskId}`, { title });
+        await axios.put(`${TASKS_ENDPOINT}/${taskId}`, { title });
       } else {
-        await axios.post(`${API_BASE_URL}/api/tasks`, { title });
+        await axios.post(TASKS_ENDPOINT, { title });
       }
       setTitle('');
       setTaskId(null);

@@ -32,6 +32,8 @@ jobs:
           ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" "ubuntu@${EC2_HOST}" << 'EOF'
           set -e
           cd "$HOME/app"
+          sudo chown -R ubuntu:ubuntu "$HOME/app"
+          git config --global --add safe.directory "$HOME/app"
           if [ -d .git ]; then
             git fetch --all
             git reset --hard origin/main

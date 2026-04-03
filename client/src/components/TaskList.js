@@ -2,14 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+const TASKS_ENDPOINT = API_BASE_URL.endsWith('/api') ? `${API_BASE_URL}/tasks` : `${API_BASE_URL}/api/tasks`;
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/tasks`);
+      const res = await axios.get(TASKS_ENDPOINT);
       setTasks(res.data);
     } catch (err) {
       console.error(err);
@@ -18,7 +19,7 @@ const TaskList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_BASE_URL}/api/tasks/${id}`);
+      await axios.delete(`${TASKS_ENDPOINT}/${id}`);
       fetchTasks();
     } catch (err) {
       console.error(err);

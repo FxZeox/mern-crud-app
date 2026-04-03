@@ -18,12 +18,18 @@ jobs:
       - name: Deploy to EC2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
+          if [ -z "$EC2_HOST" ]; then
+            echo "EC2_HOST secret is not set"
+            exit 1
+          fi
+
           KEY_FILE="$(mktemp)"
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > "$KEY_FILE"
           chmod 600 "$KEY_FILE"
 
-          ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" ubuntu@ec2-44-200-4-52.compute-1.amazonaws.com << 'EOF'
+          ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" "ubuntu@${EC2_HOST}" << 'EOF'
           set -e
           cd "$HOME/app"
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin

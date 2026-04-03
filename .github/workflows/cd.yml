@@ -23,7 +23,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > "$KEY_FILE"
           chmod 600 "$KEY_FILE"
 
-          ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" ubuntu@ec2-3-80-213-218.compute-1.amazonaws.com<< 'EOF'
+          ssh -T -o ConnectTimeout=20 -o StrictHostKeyChecking=no -i "$KEY_FILE" ubuntu@ec2-100-53-211-245.compute-1.amazonaws.com << 'EOF'
           set -e
           cd "$HOME/app"
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
